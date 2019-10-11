@@ -21,7 +21,10 @@ namespace Authors.Controllers
         {
             _logger = logger;
         }
-
+        
+        /// <summary>
+        /// Gets the weather forcast
+        /// </summary>
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
