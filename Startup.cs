@@ -28,6 +28,7 @@ namespace Authors
         {
             services.AddControllers();
             services.AddSingleton<ILibraryRepository, LibraryRepositoryMock>();
+            services.AddHealthChecks().AddCheck<ApiHealthCheck>("api");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +45,7 @@ namespace Authors
 
             app.UseAuthorization();
 
-            
+            app.UseHealthChecks("/Health");
 
             app.UseEndpoints(endpoints =>
             {
