@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Authors.Controllers
 {
+    [Produces("application/json")]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -21,8 +22,13 @@ namespace Authors.Controllers
         {
             _logger = logger;
         }
-
+        
+        /// <summary>
+        /// Gets the weather forcast
+        /// </summary>      
+        /// <response code="200">Returns the weather forcast</response>  
         [HttpGet]
+        [ProducesResponseType(200)]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();

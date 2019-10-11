@@ -6,6 +6,8 @@ namespace Authors.Controllers
 {
     public class ApiHealthCheck : IHealthCheck
     {
+
+
         public Task<HealthCheckResult> CheckHealthAsync(
             HealthCheckContext context,
             CancellationToken cancellationToken = new CancellationToken())
