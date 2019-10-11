@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using Authors.Controllers;
+using Authors.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
