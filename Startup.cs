@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Authors.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +30,11 @@ namespace Authors
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });                
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });      
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);          
             });
         }
 
