@@ -9,15 +9,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Authors.Repository;
 
 namespace Authors
 {
     public class Startup
     {
-        public Startup(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
-        {
-            ////Configuration = configuration;
-            
+        public Startup(IWebHostEnvironment env)
+        {   
             var builder = new ConfigurationBuilder()
             .SetBasePath(env.ContentRootPath)
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)

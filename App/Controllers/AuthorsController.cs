@@ -1,6 +1,8 @@
 using System.Linq;
 using Authors.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Authors.Repository;
+using Authors.Models;
 
 namespace Authors.Controllers
 {
@@ -57,6 +59,18 @@ namespace Authors.Controllers
             }
 
              return Ok(writer);
+        }
+
+        [HttpPost("/Author")]
+        [ProducesResponseType(202)]
+        public IActionResult Insert([FromBody] Writer author)
+        {
+            if (this.libraryRepository.AddWriter(author) == 1)
+            {
+                return this.Accepted();
+            }
+
+            return BadRequest();
         }
     }
 }
