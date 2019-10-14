@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Authors.Models;
+using Authors.Repository;
 
 namespace Authors.Controllers
 {
