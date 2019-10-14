@@ -25,18 +25,37 @@ namespace Authors.Controllers
         /// </summary>      
         /// <response code="200">Returns list of authors</response>  
         /// <response code="404">No authors found</response>  
-        [HttpGet]
+        [HttpGet("/authors")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public IActionResult Get()
+        public IActionResult GetAuthors()
         {
             var writers = this.libraryRepository.GetWriters();
-            if (!writers.Any())
+            if (writers == null || !writers.Any())
             {
                 return NotFound();
             }
 
             return Ok(writers);
+        }
+
+        /// <summary>
+        /// Gets an author
+        /// </summary>      
+        /// <response code="200">Returns an authors</response>  
+        /// <response code="404">No author found</response>  
+        [HttpGet("/author/{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public IActionResult GetAuthor(long id)
+        {
+            var writer = this.libraryRepository.GetWriter(id);
+            if (writer == null)
+            {
+                return NotFound();
+            }
+
+             return Ok(writer);
         }
     }
 }
