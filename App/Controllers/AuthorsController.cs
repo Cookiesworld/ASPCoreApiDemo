@@ -1,7 +1,6 @@
 using System.Linq;
 using Authors.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Authors.Repository;
 using Authors.Models;
 
 namespace Authors.Controllers
