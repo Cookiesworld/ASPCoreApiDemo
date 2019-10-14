@@ -13,9 +13,17 @@ namespace Authors
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            ////Configuration = configuration;
+            
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -24,7 +32,7 @@ namespace Authors
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<ILibraryRepository, LibraryRepositoryMock>();
+            services.AddTransient<ILibraryRepository, LibraryRepository>();
             services.AddHealthChecks().AddCheck<ApiHealthCheck>("api");
 
             // Register the Swagger generator, defining 1 or more Swagger documents
