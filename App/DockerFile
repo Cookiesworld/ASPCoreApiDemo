@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS builder
+WORKDIR /app
+EXPOSE 80 443
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build
+WORKDIR /build
+
+COPY *.csproj ./
+RUN dotnet restore
+WORKDIR "/build/App/"
+RUN dotnet build "Authors.csproj"
+
+COPY . .
+RUN dotnet publish --output /app/ --configuration Release
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "Authors.dll"]
