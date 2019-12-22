@@ -39,6 +39,7 @@ namespace Authors
 
             services.AddTransient<ILibraryRepository, LibraryRepository>();
             services.AddHealthChecks()
+                .AddSqlServer(Configuration["Data:ConnectionStrings:Sql"])
                 .AddCheck<ApiHealthCheck>("api");
 
             // Register the Swagger generator, defining 1 or more Swagger documents
