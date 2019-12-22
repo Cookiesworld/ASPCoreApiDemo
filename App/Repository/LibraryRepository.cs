@@ -30,20 +30,15 @@ namespace Authors.Repository
             using (var db = Connection)
             {
                 return db.Query<Writer>(@"SELECT [Id]
-      ,[Name]
-      ,[DateOfBirth]
-      , CASE
-
-        WHEN[Gender] = 'Male' THEN 0
-
-        WHEN[Gender] = 'Female' THEN 1
-
-        WHEN[Gender] = 'Not Known' Then 2
-
-        ELSE 3
-
-        END as [GENDER]
-  FROM[AuthorsExample].[dbo].[Writer]");
+                                          ,[Name]
+                                          ,[DateOfBirth]
+                                          , CASE
+                                            WHEN[Gender] = 'Male' THEN 0
+                                            WHEN[Gender] = 'Female' THEN 1
+                                            WHEN[Gender] = 'Not Known' Then 2
+                                            ELSE 3
+                                            END as [GENDER]
+                                      FROM [dbo].[Writer]");
             }
         }
 
@@ -51,7 +46,17 @@ namespace Authors.Repository
         {
             using (var db = Connection)
             {
-                var writer = db.QueryFirstOrDefault<Writer>("Select * From Writer where id =@Id", new { Id = id });
+                var writer = db.QueryFirstOrDefault<Writer>(@"SELECT [Id]
+                                          ,[Name]
+                                          ,[DateOfBirth]
+                                          , CASE
+                                            WHEN[Gender] = 'Male' THEN 0
+                                            WHEN[Gender] = 'Female' THEN 1
+                                            WHEN[Gender] = 'Not Known' Then 2
+                                            ELSE 3
+                                            END as [GENDER] 
+                                            FROM [dbo].[Writer]
+                                            where id =@Id", new { Id = id });
                 return writer;
             }
         }
