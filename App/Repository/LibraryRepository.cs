@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using Authors.Models;
 using Dapper;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +29,21 @@ namespace Authors.Repository
         {
             using (var db = Connection)
             {
-                return db.Query<Writer>("Select * From Writer");
+                return db.Query<Writer>(@"SELECT [Id]
+      ,[Name]
+      ,[DateOfBirth]
+      , CASE
+
+        WHEN[Gender] = 'Male' THEN 0
+
+        WHEN[Gender] = 'Female' THEN 1
+
+        WHEN[Gender] = 'Not Known' Then 2
+
+        ELSE 3
+
+        END as [GENDER]
+  FROM[AuthorsExample].[dbo].[Writer]");
             }
         }
 

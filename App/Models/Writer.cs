@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Reflection;
+using Dapper;
+using Dapper.FluentMap.Mapping;
 
 namespace Authors.Models
 {
@@ -21,5 +27,15 @@ namespace Authors.Models
         public string Name { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
+
+        public Gender Gender { get; set; }
+    }
+
+    public enum Gender
+    {
+        Male,
+        Female,
+        NotKnown,
+        NotSpecified
     }
 }
