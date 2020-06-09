@@ -1,12 +1,11 @@
-using System;
-using Xunit;
 using Authors.Controllers;
 using Microsoft.Extensions.Logging;
-using Xunit.Abstractions;
 using Microsoft.Extensions.Logging.Abstractions;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace Test
-{    
+{
     public class WeatherTests
     {
         private readonly ITestOutputHelper output;

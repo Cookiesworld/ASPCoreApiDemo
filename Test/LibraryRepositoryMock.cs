@@ -21,7 +21,8 @@ namespace Authors.Controllers
                 return null;
             }
 
-            return new Writer {
+            return new Writer
+            {
                 Id = id
             };
         }

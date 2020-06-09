@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Authors.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -23,7 +22,7 @@ namespace Authors.Controllers
         {
             _logger = logger;
         }
-        
+
         /// <summary>
         /// Gets the weather forcast
         /// </summary>      
