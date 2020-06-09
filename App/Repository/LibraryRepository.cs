@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using Microsoft.Data.SqlClient;
 using Authors.Models;
 using Dapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
 namespace Authors.Repository
@@ -73,6 +73,6 @@ namespace Authors.Repository
                 var result = db.Execute("Insert Into Writer (Name, DateOfBirth) values (@name, @dateOfBirth)", new { Name = writer.Name, DateOfBirth = writer.DateOfBirth });
                 return result;
             }
-        } 
+        }
     }
 }

@@ -1,7 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Web.Http.Description;
+using Authors.Models;
 using Authors.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Authors.Models;
+using Swashbuckle.Swagger.Annotations;
 
 namespace Authors.Controllers
 {
@@ -49,19 +54,23 @@ namespace Authors.Controllers
         [HttpGet("/author/{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [SwaggerResponse(HttpStatusCode.OK, Type=typeof(Writer))]
+        [SwaggerResponse(HttpStatusCode.NotFound)]
         public IActionResult GetAuthor(long id)
         {
             var writer = this.libraryRepository.GetWriter(id);
             if (writer == null)
             {
-                return NotFound();
+                return NotFound(id);
             }
 
-             return Ok(writer);
+            return Ok(writer);
         }
 
         [HttpPost("/Author")]
-        [ProducesResponseType(202)]
+        [ResponseType(typeof(AcceptedResult))]
+        [SwaggerResponse(HttpStatusCode.Accepted)]
+        [SwaggerResponse(HttpStatusCode.BadRequest)]
         public IActionResult Insert([FromBody] Writer author)
         {
             if (this.libraryRepository.AddWriter(author) == 1)

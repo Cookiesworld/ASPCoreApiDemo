@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace Authors.Controllers 
+namespace Authors.Controllers
 {
     public class ApiHealthCheck : IHealthCheck
     {
