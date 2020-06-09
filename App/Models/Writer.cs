@@ -11,7 +11,7 @@ namespace Authors.Models
 {
     public class Writer
     {
-        public Writer() 
+        public Writer()
         {
         }
 
@@ -22,7 +22,7 @@ namespace Authors.Models
         }
 
         [Key]
-        public long Id  { get;set; }
+        public long Id { get; set; }
 
         public string Name { get; set; }
 

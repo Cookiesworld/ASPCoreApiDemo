@@ -1,6 +1,6 @@
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 using Authors.Repository;
+using Microsoft.AspNetCore.Mvc;
 using Authors.Models;
 
 namespace Authors.Controllers

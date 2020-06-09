@@ -2,13 +2,13 @@ using System;
 using System.IO;
 using System.Reflection;
 using Authors.Controllers;
+using Authors.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Authors.Repository;
 using Newtonsoft.Json.Serialization;
 
 namespace Authors
@@ -45,7 +45,12 @@ namespace Authors
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });      
+                c.SwaggerDoc("v1", new OpenApiInfo 
+                { 
+                    Title = "Demo API", 
+                    Version = "v1",
+                    Description = "Demo API to practise some features"
+                });      
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
