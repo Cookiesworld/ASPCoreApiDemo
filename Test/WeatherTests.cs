@@ -6,19 +6,14 @@ using Xunit.Abstractions;
 
 namespace Test
 {
-    public class WeatherTests
+    public class WeatherTests(ITestOutputHelper output)
     {
-        private readonly ITestOutputHelper output;
-
-        public WeatherTests(ITestOutputHelper output)
-        {
-            this.output = output;
-        }
+        private readonly ITestOutputHelper output = output;
 
         [Fact]
         public void GetWeatherReturnsData()
         {
-            var logger = (new NullLoggerFactory()).CreateLogger<WeatherForecastController>();
+            var logger = new NullLoggerFactory().CreateLogger<WeatherForecastController>();
             var controller = new WeatherForecastController(logger);
             var result = controller.Get();
             Assert.NotNull(result);
