@@ -36,7 +36,7 @@ namespace Authors.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetAuthors()
         {
-            var writers = this.libraryRepository.GetWriters();
+            var writers = libraryRepository.GetWriters();
             if (writers == null || !writers.Any())
             {
                 return NotFound();
@@ -55,7 +55,7 @@ namespace Authors.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetAuthor(long id)
         {
-            var writer = this.libraryRepository.GetWriter(id);
+            var writer = libraryRepository.GetWriter(id);
             if (writer == null)
             {
                 return NotFound(id);
@@ -68,12 +68,13 @@ namespace Authors.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesDefaultResponseType(typeof(int))]
         public IActionResult Insert([FromBody] Writer author)
         {
-            if (this.libraryRepository.AddWriter(author) == 1)
+            var response = libraryRepository.AddWriter(author);
+            if (response == 1)
             {
-                return this.Accepted();
+                return Accepted(response);
             }
 
             return BadRequest();

@@ -8,10 +8,10 @@ namespace Authors.Controllers
     {
         public IEnumerable<Writer> GetWriters()
         {
-            return new List<Writer> {
-                new Writer("Stephen King", null),
-                new Writer("Neil Gaiman", null)
-            };
+            return [
+                new("Stephen King", null, Gender.Male),
+                new("Neil Gaiman", null, Gender.Male)
+            ];
         }
 
         public Writer GetWriter(long id)

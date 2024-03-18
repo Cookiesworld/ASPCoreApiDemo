@@ -1,35 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using Authors.Models;
 using Dapper;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 
 namespace Authors.Repository
 {
-    public class LibraryRepository : ILibraryRepository
+    public class LibraryRepository(DataContext dataContext) : ILibraryRepository
     {
-        private readonly IConfiguration config;
-
-        public LibraryRepository(IConfiguration config)
-        {
-            this.config = config;
-        }
-
-        public IDbConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(this.config.GetConnectionString("MyConnectionString"));
-            }
-        }
-
         public IEnumerable<Writer> GetWriters()
         {
-            using (var db = Connection)
-            {
-                return db.Query<Writer>(@"SELECT [Id]
+            using var db = dataContext.CreateConnection();
+            return db.Query<Writer>(@"SELECT [Id]
                                           ,[Name]
                                           ,[DateOfBirth]
                                           , CASE
@@ -38,15 +19,13 @@ namespace Authors.Repository
                                             WHEN[Gender] = 'Not Known' Then 2
                                             ELSE 3
                                             END as [GENDER]
-                                      FROM [dbo].[Writer]");
-            }
+                                      FROM [Writer]");
         }
 
         public Writer GetWriter(long id)
         {
-            using (var db = Connection)
-            {
-                var writer = db.QueryFirstOrDefault<Writer>(@"SELECT [Id]
+            using var db = dataContext.CreateConnection();
+            var writer = db.QueryFirstOrDefault<Writer>(@"SELECT [Id]
                                           ,[Name]
                                           ,[DateOfBirth]
                                           , CASE
@@ -55,10 +34,9 @@ namespace Authors.Repository
                                             WHEN[Gender] = 'Not Known' Then 2
                                             ELSE 3
                                             END as [GENDER] 
-                                            FROM [dbo].[Writer]
+                                            FROM [Writer]
                                             where id =@Id", new { Id = id });
-                return writer;
-            }
+            return writer;
         }
 
         public int AddWriter(Writer writer)
@@ -68,11 +46,9 @@ namespace Authors.Repository
                 throw new ArgumentNullException(nameof(writer));
             }
 
-            using (var db = Connection)
-            {
-                var result = db.Execute("Insert Into Writer (Name, DateOfBirth) values (@name, @dateOfBirth)", new { Name = writer.Name, DateOfBirth = writer.DateOfBirth });
-                return result;
-            }
+            using var db = dataContext.CreateConnection();
+            var result = db.Execute("Insert Into Writer (Name, DateOfBirth, Gender) values (@name, @dateOfBirth, @Gender)", new { writer.Name, writer.DateOfBirth, writer.Gender });
+            return result;
         }
     }
 }
