@@ -3,16 +3,19 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Authors.Repository
 {
     public class DataContext
     {
         protected readonly IConfiguration Configuration;
+        private readonly ILogger<DataContext> logger;
 
-        public DataContext(IConfiguration configuration)
+        public DataContext(IConfiguration configuration, ILogger<DataContext> logger)
         {
             Configuration = configuration;
+            this.logger = logger;
         }
 
         public IDbConnection CreateConnection()
@@ -20,25 +23,29 @@ namespace Authors.Repository
             return new SqliteConnection(Configuration.GetConnectionString("MyConnectionString"));
         }
 
-        public async Task Init()
+        public void Init()
         {
-            // create database tables if they don't exist
-            using var connection = CreateConnection();
-            await _initUsers();
+            var initCount = InitUsers();
+            logger.LogDebug($"Init {initCount} users");
+        }
 
-            async Task _initUsers()
-            {
-                var sql = """
+        /// <summary>
+        /// Create database tables if they don't exist
+        /// </summary>
+        /// <returns></returns>
+        private int InitUsers()
+        {
+            using var connection = CreateConnection();
+            var sql = """
                 CREATE TABLE IF NOT EXISTS 
-                [dbo].Writer (
+                Writer (
                     Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                    Name TEXT,
-                    DateOfBirth Date,
-                    Gender TEXT
+                    Name TEXT NOT NULL,
+                    DateOfBirth Date NULL,
+                    Gender INT NOT NULL
                 );
             """;
-                await connection.ExecuteAsync(sql);
-            }
+            return connection.Execute(sql);
         }
     }
 }

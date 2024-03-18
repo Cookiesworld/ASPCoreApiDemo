@@ -109,7 +109,7 @@ namespace Authors
 
             using var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-            Task.Run(context.Init);
+            context.Init();
         }
     }
 }

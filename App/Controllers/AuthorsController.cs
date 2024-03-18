@@ -1,10 +1,9 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using Authors.Models;
 using Authors.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerUI;
 using Microsoft.AspNetCore.Http;
 
 namespace Authors.Controllers
@@ -34,6 +33,7 @@ namespace Authors.Controllers
         [HttpGet("/authors")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesDefaultResponseType(typeof(List<Writer>))]
         public IActionResult GetAuthors()
         {
             var writers = libraryRepository.GetWriters();
@@ -53,6 +53,7 @@ namespace Authors.Controllers
         [HttpGet("/author/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType(typeof(Writer))]
         public IActionResult GetAuthor(long id)
         {
             var writer = libraryRepository.GetWriter(id);
@@ -64,13 +65,20 @@ namespace Authors.Controllers
             return Ok(writer);
         }
 
-        [HttpPost("/Author")]
+        /// <summary>
+        /// Insert an author
+        /// </summary>
+        /// <param name="author">the author to insert</param>
+        /// <returns>Count of insertions</returns>
+        [HttpPost("/author")]
         [ProducesResponseType(201)]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType(typeof(int))]
         public IActionResult Insert([FromBody] Writer author)
         {
+            ArgumentNullException.ThrowIfNull(author);
+
             var response = libraryRepository.AddWriter(author);
             if (response == 1)
             {
