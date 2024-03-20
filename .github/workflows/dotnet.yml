@@ -29,5 +29,6 @@ jobs:
         with:
           reports: Test/coverage.cobertura.xml
           targetdir: coveragereport
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+          reporttypes: Html;MarkdownSummary 
+      - name: Write to Job Summary
+        run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
