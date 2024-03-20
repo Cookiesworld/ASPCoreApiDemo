@@ -1,4 +1,5 @@
 using System.Data;
+using System.IO;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.Sqlite;
@@ -7,26 +8,20 @@ using Microsoft.Extensions.Logging;
 
 namespace Authors.Repository
 {
-    public class DataContext
+    public class DataContext(IConfiguration configuration, ILogger<DataContext> logger)
     {
-        protected readonly IConfiguration Configuration;
-        private readonly ILogger<DataContext> logger;
-
-        public DataContext(IConfiguration configuration, ILogger<DataContext> logger)
-        {
-            Configuration = configuration;
-            this.logger = logger;
-        }
+        protected readonly IConfiguration Configuration = configuration;
+        protected readonly ILogger<DataContext> Logger = logger;
 
         public IDbConnection CreateConnection()
         {
-            return new SqliteConnection(Configuration.GetConnectionString("MyConnectionString"));
+            return new SqliteConnection(Configuration.GetConnectionString("AuthorsConnectionString"));
         }
 
         public void Init()
         {
             var initCount = InitUsers();
-            logger.LogDebug($"Init {initCount} users");
+            Logger.LogDebug("Init {0} users", initCount);
         }
 
         /// <summary>
