@@ -25,10 +25,13 @@ jobs:
         run: dotnet build --no-restore
       - name: Test
         run: dotnet test --no-build --verbosity normal
-  docker-build:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build the Docker image
-        run: docker build . --file App/Dockerfile --tag aspcoreapidemo:$(date +%s)
+      - name: Setup .NET Core # Required to execute ReportGenerator
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.x
+          dotnet-quality: 'ga'
+      - name: ReportGenerator
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.2.4
+        with:
+          reports: cobertura.xml
+          targetdir: coveragereport
