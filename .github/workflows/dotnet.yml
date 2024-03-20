@@ -27,5 +27,5 @@ jobs:
       - name: ReportGenerator
         uses: danielpalme/ReportGenerator-GitHub-Action@5.2.4
         with:
-          reports: cobertura.xml
+          reports: Test/cobertura.xml
           targetdir: coveragereport
