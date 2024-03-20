@@ -29,3 +29,5 @@ jobs:
         with:
           reports: Test/coverage.cobertura.xml
           targetdir: coveragereport
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
