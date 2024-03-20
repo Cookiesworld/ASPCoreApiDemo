@@ -30,5 +30,11 @@ jobs:
           reports: Test/coverage.cobertura.xml
           targetdir: coveragereport
           reporttypes: Html;MarkdownSummary 
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          recreate: true
+          path: coveragereport/Summary.md
       - name: Write to Job Summary
         run: cat coveragereport/Summary.md >> $GITHUB_STEP_SUMMARY
